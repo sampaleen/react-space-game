@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import keydown from 'react-keydown';
 import Mousetrap from 'mousetrap';
 
-class Elf extends Component {
+class Controller extends Component {
   constructor() {
     super();
     this.onKeyPress = this.onKeyPress.bind(this);
@@ -34,4 +33,4 @@ class Elf extends Component {
   }
 }
 
-export default Elf;
+export default Controller;

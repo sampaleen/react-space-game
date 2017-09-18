@@ -3,13 +3,13 @@ import logo from './logo.svg';
 import './App.css';
 
 //Characters
-import Elf from './Characters/Elf';
+import Controller from './Controller';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-          <Elf/>
+          <Controller/>
           <h2>SpaceGAME xDDDDDDDD lol</h2>
       </div>
     );
