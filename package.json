@@ -5,7 +5,11 @@
   "dependencies": {
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+<<<<<<< HEAD
     "react-sc": "^0.2.1"
+=======
+    "react-keydown": "^1.9.4"
+>>>>>>> d8f567c6f9a3d78ba7d4e569020149b6082a2248
   },
   "devDependencies": {
     "react-scripts": "1.0.13"
