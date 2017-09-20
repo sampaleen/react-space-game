@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-
-//Characters
 import Controller from './Controller';
+import Game from './Game/Game';
+
 
 class App extends Component {
   render() {
     return (
       <div className="App">
           <Controller/>
-          <h2>SpaceGAME xDDDDDDDD lol</h2>
+          <Game />
       </div>
     );
   }
