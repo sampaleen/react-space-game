@@ -11,12 +11,12 @@ class SpaceShip extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      position : props.position,
       spaceShip:{
+        position : 'absolute',
         height:'10%',
         width:'10%',
-        x:props.position.x,
-        y:props.position.y
+        left:props.position.x,
+        top:props.position.y
       }
     }
   }
