@@ -1,43 +1,43 @@
 import React, { Component } from 'react';
-import Mousetrap from 'mousetrap';
 import SpaceShip_img from '../Assets/spaceship.png';
 
 const style = {
-  spaceShip:{
-    height:'10%',
-    width:'10%',
-    position: 'absolute',
-    bottom:'0',
-}}
+  }
 
 
 
 class SpaceShip extends Component {
 
-  componentDidMount() {
-    Mousetrap.bind(['up','down','left','right'], this.onKeyPress);
+  constructor(props) {
+    super(props);
+    this.state = {
+      position : props.position,
+      spaceShip:{
+        height:'10%',
+        width:'10%',
+        x:props.position.x,
+        y:props.position.y
+      }
+    }
   }
 
-  onKeyPress(target) {
-    if(target.keyCode===38){
-      console.log('Up Clicked!!!');    
+  componentWillReceiveProps(nextProps) {
+    let spaceShip = {
+      position:'absolute',
+      height:'10%',
+      width:'10%',
+      left:nextProps.position.x,
+      top:nextProps.position.y
     }
-    else if(target.keyCode===39){
-      style.spaceShip.right = toString(parseInt(style.right)+1);
-      console.log('Right Clicked!!!');    
-      console.log(style.spaceShip.right);
-    }
-    else if(target.keyCode===40){
-      console.log('Down Clicked!!!');    
-    }
-    else if(target.keyCode===37){
-      console.log('Left Clicked!!!');    
-    }
+    this.setState(() => ({
+      spaceShip:spaceShip
+    }));
   }
 
   render() {
+    console.log(this.state.spaceShip);
     return(
-      <img src = {SpaceShip_img} style = {style.spaceShip}/>
+      <img src = {SpaceShip_img} style = {this.state.spaceShip}/>
     );
   }
 }
