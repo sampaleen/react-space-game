@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import SpaceShip_img from '../Assets/spaceship.png';
-
+// eslint-disable-next-line
 const style = {
   }
 
@@ -37,6 +37,7 @@ class SpaceShip extends Component {
   render() {
     console.log(this.state.spaceShip);
     return(
+      // eslint-disable-next-line
       <img src = {SpaceShip_img} style = {this.state.spaceShip}/>
     );
   }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Mousetrap from 'mousetrap';
 import SpaceShip from '../Characters/SpaceShip';
+// eslint-disable-next-line
 import Galaxy from '../Assets/galaxy.png';
 
 const style = {
@@ -35,33 +36,45 @@ class Game extends Component {
       console.log('Up Clicked!!!');
       let position = {
         x:this.state.position.x,
-        y:this.state.position.y - speed
+        y:this.state.position.y
       } 
+      if(position.y!==0) {
+        position.y = position.y-speed
+      }
       this.setState({position:position});    
     }
     else if(target.keyCode===39){
       console.log('Right Clicked!!!');    
       let position = {
-        x:this.state.position.x + speed,
+        x:this.state.position.x,
         y:this.state.position.y
       } 
+      if(position.x<460){
+        position.x = position.x+speed
+      }
       this.setState({position:position}); 
     }
     else if(target.keyCode===40){
       console.log('Down Clicked!!!');   
       let position = {
         x:this.state.position.x,
-        y:this.state.position.y + speed
+        y:this.state.position.y
       } 
+      if(position.y<530){
+        position.y = position.y+speed
+      }
       this.setState({position:position});  
     }
     else if(target.keyCode===37){
       console.log('Left Clicked!!!');
       let position = {
-        x:this.state.position.x - speed,
+        x:this.state.position.x,
         y:this.state.position.y
       } 
-      this.setState({position:position});    
+      if(position.x!==0){
+        position.x = position.x-speed
+      }
+      this.setState({position:position});
     }
   }
 
