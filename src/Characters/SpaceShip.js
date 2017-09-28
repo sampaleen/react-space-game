@@ -13,8 +13,8 @@ class SpaceShip extends Component {
     this.state = {
       spaceShip:{
         position : 'absolute',
-        height:'10%',
-        width:'10%',
+        height:'60px',
+        width:'60px',
         left:props.position.x,
         top:props.position.y
       }
@@ -24,8 +24,8 @@ class SpaceShip extends Component {
   componentWillReceiveProps(nextProps) {
     let spaceShip = {
       position:'absolute',
-      height:'10%',
-      width:'10%',
+      height:'60px%',
+      width:'60px%',
       left:nextProps.position.x,
       top:nextProps.position.y
     }

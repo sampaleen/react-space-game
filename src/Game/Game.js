@@ -28,7 +28,7 @@ class Game extends Component {
   }
 
   componentDidMount() {
-    Mousetrap.bind(['up','down','left','right'], this.onKeyPress);
+    Mousetrap.bind(['up','down','left','right','space'], this.onKeyPress);
   }
   
   onKeyPress(target) {
@@ -49,7 +49,7 @@ class Game extends Component {
         x:this.state.position.x,
         y:this.state.position.y
       } 
-      if(position.x<460){
+      if(position.x<540){
         position.x = position.x+speed
       }
       this.setState({position:position}); 
@@ -60,7 +60,7 @@ class Game extends Component {
         x:this.state.position.x,
         y:this.state.position.y
       } 
-      if(position.y<530){
+      if(position.y<540){
         position.y = position.y+speed
       }
       this.setState({position:position});  
