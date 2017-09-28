@@ -30,7 +30,7 @@ class Game extends Component {
   }
 
   componentDidMount() {
-    Mousetrap.bind(['up','down','left','right' ], this.onKeyPress);
+    Mousetrap.bind(['up','down','left','right'], this.onKeyPress);
   }
   
   onKeyPress(target) {

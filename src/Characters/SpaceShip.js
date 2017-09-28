@@ -22,7 +22,7 @@ class SpaceShip extends Component {
   }
 
   componentDidMount() {
-    Mousetrap.bind(['space'], this.shoot);
+    Mousetrap.bind(['space'], this.shoot, 'keyup');
   }
 
   componentWillReceiveProps(nextProps) {
@@ -43,7 +43,7 @@ class SpaceShip extends Component {
     lasers.push(1);
     this.setState({
       lasers:lasers
-    });
+    }); 
   }
 
   render() {
@@ -52,7 +52,7 @@ class SpaceShip extends Component {
     ));
     return(
       <div>
-        <img src = {SpaceShip_img} style = {this.state.spaceShip}/>
+        <img alt = "" src = {SpaceShip_img} style = {this.state.spaceShip}/>
         {lasers}
       </div>
     );
