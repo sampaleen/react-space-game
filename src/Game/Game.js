@@ -3,6 +3,7 @@ import Mousetrap from 'mousetrap';
 import SpaceShip from '../Characters/SpaceShip';
 // eslint-disable-next-line
 import Galaxy from '../Assets/galaxy.png';
+import Menu from './menu';
 
 
 
@@ -80,7 +81,7 @@ class Game extends Component {
     }
   }
 
-  render() { 
+  render() {  
     return(
       <div id = "Canvas" style = {style.Canvas}>
         <SpaceShip position = {this.state.position} />

@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import Overlay from 'react-overlay';
-import menu-button from '../Assets/menu-button-hi.png';
+import MenuButton from '../Assets/menu-button-hi.png';
 
  
 class Menu extends Component {
@@ -23,11 +23,14 @@ class Menu extends Component {
   render() {
     return (
       <div>
+        <Menu position = {this.state.position}>
+          <button onClick={this.toggleMenu.bind(this)}>Menu</button>
+        </Menu>
         <Overlay>
           <span>I am attached to the body!</span>
           open={this.state.isOpen}
           onClose={this.toggleMenu}
-          <img src = {menu-button}/>
+          <img src = {MenuButton}/>
         </Overlay>
       </div>
     );
