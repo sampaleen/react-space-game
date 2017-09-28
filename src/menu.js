@@ -1,12 +1,18 @@
 
 import React, { Component } from 'react';
-import OverlayMenu from 'react-overlay-menu';
-import MyMenu from './components/ui/MyMenu';
+import Overlay from 'react-overlay';
+import menu-button from '../Assets/menu-button-hi.png';
+
  
 class Menu extends Component {
   constructor(props) {
     super(props);
-    this.state = { isOpen: false };
+    this.state = { 
+      isOpen: false,
+      position: props.position,
+      x:props.position.x,
+      y:props.position.y
+    };
     this.toggleMenu = this.toggleMenu.bind(this);
   }
  
@@ -17,13 +23,12 @@ class Menu extends Component {
   render() {
     return (
       <div>
-        <button type="button" onClick={this.toggleMenu}>Open menu</button>
-        <OverlayMenu 
-          open={this.state.isOpen} 
+        <Overlay>
+          <span>I am attached to the body!</span>
+          open={this.state.isOpen}
           onClose={this.toggleMenu}
-        >
-          <MyMenu />
-        </OverlayMenu>
+          <img src = {menu-button}/>
+        </Overlay>
       </div>
     );
   }
