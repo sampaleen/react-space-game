@@ -23,7 +23,7 @@ class SpaceShip extends Component {
   }
 
   componentDidMount() {
-    Mousetrap.bind(['space'], this.shoot);
+    Mousetrap.bind(['space'], this.shoot, 'keyup');
   }
 
   componentWillReceiveProps(nextProps) {
