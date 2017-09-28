@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+// eslint-disable-next-line
 import logo from './logo.svg';
 import './App.css';
 import Controller from './Controller';

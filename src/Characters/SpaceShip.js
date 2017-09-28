@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 import Mousetrap from 'mousetrap';
 import SpaceShip_img from '../Assets/spaceship.png';
-import Laser from './Laser';
-
-const style = {
-
-}
-
+import Laser from './Laser'; 
 
 
 class SpaceShip extends Component {
@@ -14,7 +9,6 @@ class SpaceShip extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      position : props.position,
       spaceShip:{
         height:'60px',
         width:'60px',
@@ -33,7 +27,7 @@ class SpaceShip extends Component {
 
   componentWillReceiveProps(nextProps) {
     let spaceShip = {
-      position:'absolute',
+       position:'absolute',
       height:'60px',
       width:'60px',
       left:nextProps.position.x,
