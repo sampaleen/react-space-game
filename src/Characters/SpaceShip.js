@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import Mousetrap from 'mousetrap';
 import SpaceShip_img from '../Assets/spaceship.png';
+import Laser from './Laser';
 
 const style = {
-  }
+
+}
 
 
 
@@ -13,19 +16,26 @@ class SpaceShip extends Component {
     this.state = {
       position : props.position,
       spaceShip:{
-        height:'10%',
-        width:'10%',
-        x:props.position.x,
-        y:props.position.y
-      }
+        height:'60px',
+        width:'60px',
+        left:props.position.x,
+        top:props.position.y,
+        position:'absolute'
+      },
+      lasers: []
     }
+    this.shoot = this.shoot.bind(this);
+  }
+
+  componentDidMount() {
+    Mousetrap.bind(['space'], this.shoot);
   }
 
   componentWillReceiveProps(nextProps) {
     let spaceShip = {
       position:'absolute',
-      height:'10%',
-      width:'10%',
+      height:'60px',
+      width:'60px',
       left:nextProps.position.x,
       top:nextProps.position.y
     }
@@ -34,10 +44,23 @@ class SpaceShip extends Component {
     }));
   }
 
+  shoot() {
+    let lasers = this.state.lasers;
+    lasers.push(1);
+    this.setState({
+      lasers:lasers
+    });
+  }
+
   render() {
-    console.log(this.state.spaceShip);
+    let lasers = this.state.lasers.map((index)=>(
+      <Laser x = {this.state.spaceShip.left} y = {this.state.spaceShip.top} />
+    ));
     return(
-      <img src = {SpaceShip_img} style = {this.state.spaceShip}/>
+      <div>
+        <img src = {SpaceShip_img} style = {this.state.spaceShip}/>
+        {lasers}
+      </div>
     );
   }
 }
