@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Mousetrap from 'mousetrap';
 import SpaceShip_img from '../Assets/spaceship.png';
-import Laser from './Laser'; 
+import Laser from './Laser';
 
 
 class SpaceShip extends Component {
@@ -19,6 +19,7 @@ class SpaceShip extends Component {
       lasers: []
     }
     this.shoot = this.shoot.bind(this);
+    this.removeLaser  = this.removeLaser.bind(this);
   }
 
   componentDidMount() {
@@ -46,9 +47,19 @@ class SpaceShip extends Component {
     });
   }
 
+  removeLaser() {
+    let lasers = this.state.lasers;
+    lasers.splice(0,1);
+    this.setState({
+      lasers:lasers
+    });
+
+    console.log(this.state.lasers);
+  }
+
   render() {
     let lasers = this.state.lasers.map((index)=>(
-      <Laser x = {this.state.spaceShip.left} y = {this.state.spaceShip.top} />
+      <Laser x = {this.state.spaceShip.left} y = {this.state.spaceShip.top} removeLaser={this.removeLaser.bind(this)} />
     ));
     return(
       <div>
