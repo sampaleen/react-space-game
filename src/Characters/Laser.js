@@ -53,7 +53,7 @@ class Laser extends Component {
 
   render () {
     return(
-
+      // eslint-disable-next-line
       <img src = {Beams} style = {this.state.laser} onClick={this.remove } />
     );
   }

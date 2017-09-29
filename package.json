@@ -6,7 +6,10 @@
     "mousetrap": "^1.6.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
-    "react-keydown": "^1.9.4"
+    "react-mousetrap": "^0.1.1",
+    "react-overlay": "^0.1.7",
+    "react-overlay-menu": "^1.0.0",
+    "react-sc": "^0.2.1"
   },
   "devDependencies": {
     "react-scripts": "1.0.13"

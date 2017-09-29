@@ -4,6 +4,7 @@ import SpaceShip from '../Characters/SpaceShip';
 import Asteroid from '../Characters/Asteroid';
 // eslint-disable-next-line
 import Galaxy from '../Assets/galaxy.png';
+import Menu from './menu';
 
 
 
