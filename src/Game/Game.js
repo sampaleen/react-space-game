@@ -29,55 +29,64 @@ class Game extends Component {
       asteroid_pos : {
         x:0,
         y:0
-      }
+      },
+      Up: false,
+      Down: false,
+      Left: false,
+      Right: false
     }
     this.onKeyPress = this.onKeyPress.bind(this);
+    this.onKeyUp = this.onKeyUp.bind(this);
+    this.update = this.update.bind(this);
   }
 
   componentDidMount() {
-    Mousetrap.bind(['up','down','left','right'], this.onKeyPress);
+    Mousetrap.bind(['up','down','left','right' ], this.onKeyPress, 'keydown');
+    Mousetrap.bind(['up','down','left','right' ], this.onKeyUp, 'keyup');
+    this.interval = setInterval(this.update, 10);
   }
-  
-  onKeyPress(target) {
-    if(target.keyCode===38){
+
+  update() {
+
+    if(this.state.Up){
       console.log('Up Clicked!!!');
       let position = {
         x:this.state.position.x,
         y:this.state.position.y
-      } 
+      }
       if(position.y!==0) {
         position.y = position.y-speed
       }
-      this.setState({position:position});    
+      this.setState({position:position});
     }
-    if(target.keyCode===39){
-      console.log('Right Clicked!!!');    
+    if(this.state.Right){
+      console.log('Right Clicked!!!');
       let position = {
         x:this.state.position.x,
         y:this.state.position.y
-      } 
+      }
       if(position.x<540){
         position.x = position.x+speed
       }
-      this.setState({position:position}); 
+      this.setState({position:position});
     }
-    if(target.keyCode===40){
-      console.log('Down Clicked!!!');   
+    if(this.state.Down){
+      console.log('Down Clicked!!!');
       let position = {
         x:this.state.position.x,
         y:this.state.position.y
-      } 
+      }
       if(position.y<540){
         position.y = position.y+speed
       }
-      this.setState({position:position});  
+      this.setState({position:position});
     }
-    if(target.keyCode===37){
+    if(this.state.Left){
       console.log('Left Clicked!!!');
       let position = {
         x:this.state.position.x,
         y:this.state.position.y
-      } 
+      }
       if(position.x!==0){
         position.x = position.x-speed
       }
@@ -85,7 +94,46 @@ class Game extends Component {
     }
   }
 
-  render() { 
+  onKeyPress(target) {
+    if(target.keyCode===38){
+      //console.log('Up Clicked!!!');
+      this.setState({Up:true});
+    }
+    if(target.keyCode===39){
+      //console.log('Right Clicked!!!');
+      this.setState({Right:true});
+      //console.log()
+    }
+    if(target.keyCode===40){
+      //console.log('Down Clicked!!!');
+      this.setState({Down:true});
+    }
+    if(target.keyCode===37){
+      //console.log('Left Clicked!!!');
+      this.setState({Left:true});
+    }
+  }
+
+  onKeyUp(target) {
+    if(target.keyCode===38){
+      //console.log('Up Clicked!!!');
+      this.setState({Up:false});
+    }
+    if(target.keyCode===39){
+      console.log('Right up!!!');
+      this.setState({Right:false});
+    }
+    if(target.keyCode===40){
+      //console.log('Down Clicked!!!');
+      this.setState({Down:false});
+    }
+    if(target.keyCode===37){
+      //console.log('Left Clicked!!!');
+      this.setState({Left:false});
+    }
+  }
+
+  render() {
     return(
       <div id = "Canvas" style = {style.Canvas}>
         <SpaceShip position = {this.state.position} />
