@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Mousetrap from 'mousetrap';
 import SpaceShip from '../Characters/SpaceShip';
+import Asteroid from '../Characters/Asteroid';
 // eslint-disable-next-line
 import Galaxy from '../Assets/galaxy.png';
 
@@ -24,6 +25,10 @@ class Game extends Component {
       position : {
         x:300,
         y:500
+      },
+      asteroid_pos : {
+        x:0,
+        y:0
       }
     }
     this.onKeyPress = this.onKeyPress.bind(this);
@@ -84,6 +89,7 @@ class Game extends Component {
     return(
       <div id = "Canvas" style = {style.Canvas}>
         <SpaceShip position = {this.state.position} />
+        <Asteroid position = {this.state.asteroid_pos} />
       </div>
     );
   }
