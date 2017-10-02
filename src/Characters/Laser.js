@@ -12,7 +12,9 @@ class Laser extends Component {
       laser: {
         position:'absolute',
         left:this.props.x,
-        top:this.props.y - 60
+        top:this.props.y,
+        height: props.height,
+        width: props.width
       },
     }
   }
@@ -23,7 +25,9 @@ class Laser extends Component {
       laser:{
         position:'absolute',  
         left:nextProps.x,
-        top:nextProps.y, 
+        top:nextProps.y,
+        height: nextProps.height,
+        width: nextProps.width 
       }
     });
   }
