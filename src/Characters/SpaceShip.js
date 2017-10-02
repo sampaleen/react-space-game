@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import update from 'react-addons-update';
 import Mousetrap from 'mousetrap';
 import SpaceShip_img from '../Assets/spaceship.png';
 import Laser from './Laser';
@@ -22,6 +23,12 @@ class SpaceShip extends Component {
       EvilSpaceShips:[
         {
           x:200,
+          y:100,
+          width:100,
+          height:70
+        },
+        {
+          x:50,
           y:100,
           width:100,
           height:70
@@ -85,24 +92,18 @@ class SpaceShip extends Component {
   checkCollisons() {
     let lasers = this.state.lasers;
     let EvilSpaceShips = this.state.EvilSpaceShips;
-    let tempShip = [];
-    let tempLaser = [];
-    lasers.forEach((laser) => {
-      EvilSpaceShips.forEach((ship) => {
-        if(!this.overLap(laser, ship)){
-          tempLaser.push(laser);
-          tempShip.push(ship);
+    EvilSpaceShips.forEach((ship, shipIndex) => {
+      lasers.forEach((laser, laserIndex) => {
+        console.log(laserIndex);
+        if(this.overLap(laser, ship)) {
+          this.setState(() => ({
+            lasers: update(this.state.lasers, {$splice: [[-1, 1]]}),
+            EvilSpaceShips: update(this.state.EvilSpaceShips, {$splice: [[-1, 1]]})
+          }));
         }
       });
     });
-    console.log("tempLaser :" + tempLaser);
-    if(lasers.length !== 0 && EvilSpaceShips.length !== 0) {
-      this.setState({
-        lasers:tempLaser,
-        EvilSpaceShips:tempShip
-      });
-    }
-    
+    console.log(this.state.lasers);
   }
 
   overLap(laser, ship) {

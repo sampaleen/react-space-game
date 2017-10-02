@@ -20,7 +20,6 @@ class Laser extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps.y);
     this.setState({
       laser:{
         position:'absolute',  
