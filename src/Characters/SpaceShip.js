@@ -3,6 +3,7 @@ import Mousetrap from 'mousetrap';
 import SpaceShip_img from '../Assets/spaceship.png';
 import Laser from './Laser';
 
+const laserSpeed = 5;
 
 class SpaceShip extends Component {
 
@@ -20,14 +21,13 @@ class SpaceShip extends Component {
       deleteIndex:[]
     }
     this.shoot = this.shoot.bind(this);
-    this.removeLaser  = this.removeLaser.bind(this);
-    this.removeLaserAsync  = this.removeLaserAsync.bind(this);
+    this.updateLasers = this.updateLasers.bind(this); 
   }
 
   componentDidMount() {
     Mousetrap.bind(['space'], this.shoot);
-    this.deleteInterval = setInterval(this.removeLaser, 1000);
-  }
+    this.deleteInterval = setInterval(this.updateLasers, 10);
+  } 
 
   componentWillReceiveProps(nextProps) {
     let spaceShip = {
@@ -45,38 +45,36 @@ class SpaceShip extends Component {
   shoot() {
     let lasers = this.state.lasers;
     let id = Math.random();
-    lasers.push(id);
+    let newLaser = {
+      x:this.state.spaceShip.left,
+      y:this.state.spaceShip.top,
+      id:id
+    }
+    lasers.push(newLaser);
     this.setState({
       lasers:lasers
     });
+    console.log(this.state.lasers);
   }
 
-  removeLaserAsync(value) {
-    let deleteIndex = this.state.deleteIndex;
-    deleteIndex.push(value);
-    this.setState({
-      deleteIndex:deleteIndex
-    });
-  }
-
-  removeLaser() {
-    
-    let deleteIndex = this.state.deleteIndex;
+  updateLasers() {
     let lasers = this.state.lasers;
-    
-    deleteIndex.forEach((i)=>{
-      lasers.splice(lasers.indexOf(i), 1);
+    let temp = [];
+    lasers.forEach((i) => {
+      if(i.y > -100){
+        i.y -= laserSpeed;
+        temp.push(i);
+      }
     });
-    
     this.setState({
-      lasers:lasers,
-      deleteIndex:[]
+      lasers:temp
     });
   }
+
 
   render() {
     let lasers = this.state.lasers.map((index)=>(
-      <Laser x = {this.state.spaceShip.left} y = {this.state.spaceShip.top} name = {index} removeLaser = {()=>this.removeLaserAsync(index)} />
+      <Laser x = {index.x} y = {index.y} name = {index.id} removeLaser = {()=>this.removeLaserAsync(index)} />
     ));
     return(
       <div>
