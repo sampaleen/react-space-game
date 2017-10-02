@@ -16,14 +16,17 @@ class SpaceShip extends Component {
         top:props.position.y,
         position:'absolute'
       },
-      lasers: []
+      lasers: [],
+      deleteIndex:[]
     }
     this.shoot = this.shoot.bind(this);
     this.removeLaser  = this.removeLaser.bind(this);
+    this.removeLaserAsync  = this.removeLaserAsync.bind(this);
   }
 
   componentDidMount() {
     Mousetrap.bind(['space'], this.shoot);
+    this.deleteInterval = setInterval(this.removeLaser, 1000);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -41,25 +44,39 @@ class SpaceShip extends Component {
 
   shoot() {
     let lasers = this.state.lasers;
-    lasers.push(1);
+    let id = Math.random();
+    lasers.push(id);
     this.setState({
       lasers:lasers
+    });
+  }
+
+  removeLaserAsync(value) {
+    let deleteIndex = this.state.deleteIndex;
+    deleteIndex.push(value);
+    this.setState({
+      deleteIndex:deleteIndex
     });
   }
 
   removeLaser() {
+    
+    let deleteIndex = this.state.deleteIndex;
     let lasers = this.state.lasers;
-    lasers.splice(0,1);
-    this.setState({
-      lasers:lasers
+    
+    deleteIndex.forEach((i)=>{
+      lasers.splice(lasers.indexOf(i), 1);
     });
-
-    console.log(this.state.lasers);
+    
+    this.setState({
+      lasers:lasers,
+      deleteIndex:[]
+    });
   }
 
   render() {
     let lasers = this.state.lasers.map((index)=>(
-      <Laser x = {this.state.spaceShip.left} y = {this.state.spaceShip.top} removeLaser={this.removeLaser.bind(this)} />
+      <Laser x = {this.state.spaceShip.left} y = {this.state.spaceShip.top} name = {index} removeLaser = {()=>this.removeLaserAsync(index)} />
     ));
     return(
       <div>
