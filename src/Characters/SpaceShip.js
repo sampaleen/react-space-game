@@ -22,16 +22,18 @@ class SpaceShip extends Component {
       lasers: [],
       EvilSpaceShips:[
         {
+          x:400,
+          y:100,
+          width:100,
+          height:70,
+          isAlive:true,
+        },
+        {
           x:200,
           y:100,
           width:100,
-          height:70
-        },
-        {
-          x:50,
-          y:100,
-          width:100,
-          height:70
+          height:70,
+          isAlive:true,
         }
       ]
     }
@@ -66,7 +68,8 @@ class SpaceShip extends Component {
       y:this.state.spaceShip.top-60 ,
       id:id,
       height:60,
-      width:20
+      width:20,
+      isAlive:true
     }
     lasers.push(newLaser);
     this.setState({
@@ -79,7 +82,7 @@ class SpaceShip extends Component {
     let temp = [];
     this.checkCollisons();
     lasers.forEach((i) => {
-      if(i.y > -100){
+      if(i.y > -100 && i.isAlive){
         i.y -= laserSpeed;
         temp.push(i);
       }
@@ -92,18 +95,16 @@ class SpaceShip extends Component {
   checkCollisons() {
     let lasers = this.state.lasers;
     let EvilSpaceShips = this.state.EvilSpaceShips;
-    EvilSpaceShips.forEach((ship, shipIndex) => {
-      lasers.forEach((laser, laserIndex) => {
-        console.log(laserIndex);
-        if(this.overLap(laser, ship)) {
-          this.setState(() => ({
-            lasers: update(this.state.lasers, {$splice: [[-1, 1]]}),
-            EvilSpaceShips: update(this.state.EvilSpaceShips, {$splice: [[-1, 1]]})
-          }));
+    let temp = [];
+    EvilSpaceShips.forEach((ship) => {
+      lasers.forEach((laser) => { 
+        if(this.overLap(laser, ship) && ship.isAlive && laser.isAlive) {
+          ship.isAlive = false;
+          laser.isAlive = false;
+          console.log('hit');
         }
       });
     });
-    console.log(this.state.lasers);
   }
 
   overLap(laser, ship) {
@@ -122,12 +123,16 @@ class SpaceShip extends Component {
   }
 
   render() {
-    let lasers = this.state.lasers.map((index)=>(
-      <Laser x = {index.x} y = {index.y} name = {index.id} width = {index.width} height = {index.height}/>
-    ));
-    let EvilSpaceShips = this.state.EvilSpaceShips.map((index)=>(
-      <EvilSpaceShip x = {index.x} y = {index.y} width = {index.width} height = {index.height}/>
-    ))
+    let lasers = this.state.lasers.map((index)=>{
+      if(index.isAlive) {
+        return <Laser x = {index.x} y = {index.y} name = {index.id} width = {index.width} height = {index.height}/>;
+      }
+    });
+    let EvilSpaceShips = this.state.EvilSpaceShips.map((index)=>{
+      if(index.isAlive){
+        return <EvilSpaceShip x = {index.x} y = {index.y} width = {index.width} height = {index.height}/>;
+      }
+    })
     return(
       <div>
         <img src = {SpaceShip_img} style = {this.state.spaceShip}/>
