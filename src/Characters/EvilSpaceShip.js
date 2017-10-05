@@ -15,6 +15,20 @@ class EvilSpaceShip extends Component {
       }
     }
   }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      EvilSpace:{
+        position:'absolute',  
+        left:nextProps.x,
+        top:nextProps.y,
+        height: nextProps.height,
+        width: nextProps.width 
+      }
+    });
+  }
+
+
   render() {
     return(
         <img src = {Evil_SpaceShip}  style = {this.state.EvilSpace} />

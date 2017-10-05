@@ -6,6 +6,7 @@ import Laser from './Laser';
 import EvilSpaceShip from './EvilSpaceShip';
 
 const laserSpeed = 5;
+const EvilSpaceShipSpeed = 1;
 
 class SpaceShip extends Component {
 
@@ -38,13 +39,16 @@ class SpaceShip extends Component {
       ]
     }
     this.shoot = this.shoot.bind(this);
-    this.updateLasers = this.updateLasers.bind(this); 
+    this.updateLasers = this.updateLasers.bind(this);
+    this.update = this.update.bind(this); 
+    this.updateEvilSpaceShips = this.updateEvilSpaceShips.bind(this);
     this.checkCollisons = this.checkCollisons.bind(this);
+
   }
 
   componentDidMount() {
     Mousetrap.bind(['space'], this.shoot, 'keyup');
-    this.Interval = setInterval(this.updateLasers, 10);
+    this.Interval = setInterval(this.update, 10);
   } 
 
   componentWillReceiveProps(nextProps) {
@@ -77,10 +81,15 @@ class SpaceShip extends Component {
     });
   }
 
+  update() {
+    this.checkCollisons();
+    this.updateLasers();
+    this.updateEvilSpaceShips();
+  }
+
   updateLasers() {
     let lasers = this.state.lasers;
     let temp = [];
-    this.checkCollisons();
     lasers.forEach((i) => {
       if(i.y > -100 && i.isAlive){
         i.y -= laserSpeed;
@@ -89,6 +98,20 @@ class SpaceShip extends Component {
     });
     this.setState({
       lasers:temp
+    });
+  }
+
+  updateEvilSpaceShips() {
+    let EvilSpaceShips = this.state.EvilSpaceShips;
+    let temp = [];
+    EvilSpaceShips.forEach((i) => {
+      if(i.y < 650 && i.isAlive){
+        i.y += 2;
+        temp.push(i);
+      }
+    });
+    this.setState({
+      EvilSpaceShips:temp
     });
   }
 
