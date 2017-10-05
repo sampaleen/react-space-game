@@ -12,49 +12,34 @@ class Laser extends Component {
       laser: {
         position:'absolute',
         left:this.props.x,
-        top:this.props.y - 60
-      }
+        top:this.props.y,
+        height: props.height,
+        width: props.width
+      },
     }
-    this.update = this.update.bind(this);
-
   }
 
-  componentDidMount() {
-    this.interval = setInterval(this.update, 10);
-  }
-
-  update() {
-    console.log("begining");
-    let newY = this.state.laser.top - laserSpeed;
-    let x = this.state.laser.left;
-
-    if(newY < 50) {
-      newY = this.state.laser.top +  laserSpeed;
-      //this.remove();
-      //clearInterval(this.interval);
-      //console.log("REmoved");
-    }
-    let laser = {
-      position:'absolute',
-      left:x,
-      top: newY
-    }
-
+  componentWillReceiveProps(nextProps) {
     this.setState({
-      laser:laser
+      laser:{
+        position:'absolute',  
+        left:nextProps.x,
+        top:nextProps.y,
+        height: nextProps.height,
+        width: nextProps.width 
+      }
     });
   }
 
-  remove() {
-    clearInterval(this.interval);
-    console.log("REmoved");
-    this.props.removeLaser();
-  }
 
   render () {
     return(
+<<<<<<< HEAD
       // eslint-disable-next-line
       <img src = {Beams} style = {this.state.laser} onClick={this.remove } />
+=======
+      <img src = {Beams} style = {this.state.laser} />
+>>>>>>> e7571babe37f839be2731a0288d015d0692be27b
     );
   }
 }

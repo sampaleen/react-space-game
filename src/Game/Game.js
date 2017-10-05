@@ -50,7 +50,6 @@ class Game extends Component {
   update() {
 
     if(this.state.Up){
-      console.log('Up Clicked!!!');
       let position = {
         x:this.state.position.x,
         y:this.state.position.y
@@ -61,7 +60,6 @@ class Game extends Component {
       this.setState({position:position});
     }
     if(this.state.Right){
-      console.log('Right Clicked!!!');
       let position = {
         x:this.state.position.x,
         y:this.state.position.y
@@ -72,7 +70,6 @@ class Game extends Component {
       this.setState({position:position});
     }
     if(this.state.Down){
-      console.log('Down Clicked!!!');
       let position = {
         x:this.state.position.x,
         y:this.state.position.y
@@ -83,7 +80,6 @@ class Game extends Component {
       this.setState({position:position});
     }
     if(this.state.Left){
-      console.log('Left Clicked!!!');
       let position = {
         x:this.state.position.x,
         y:this.state.position.y
