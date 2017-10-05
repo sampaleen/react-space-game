@@ -48,7 +48,7 @@ class Game extends Component {
         x:this.state.position.x,
         y:this.state.position.y
       }
-      if(position.y!==0) {
+      if(position.y>55) {
         position.y = position.y-speed
       }
       this.setState({position:position});
@@ -78,7 +78,7 @@ class Game extends Component {
         x:this.state.position.x,
         y:this.state.position.y
       }
-      if(position.x!==0){
+      if(position.x>0){
         position.x = position.x-speed
       }
       this.setState({position:position});
@@ -87,39 +87,30 @@ class Game extends Component {
 
   onKeyPress(target) {
     if(target.keyCode===38){
-      //console.log('Up Clicked!!!');
       this.setState({Up:true});
     }
     if(target.keyCode===39){
-      //console.log('Right Clicked!!!');
       this.setState({Right:true});
-      //console.log()
     }
     if(target.keyCode===40){
-      //console.log('Down Clicked!!!');
       this.setState({Down:true});
     }
     if(target.keyCode===37){
-      //console.log('Left Clicked!!!');
       this.setState({Left:true});
     }
   }
 
   onKeyUp(target) {
     if(target.keyCode===38){
-      //console.log('Up Clicked!!!');
       this.setState({Up:false});
     }
     if(target.keyCode===39){
-      console.log('Right up!!!');
       this.setState({Right:false});
     }
     if(target.keyCode===40){
-      //console.log('Down Clicked!!!');
       this.setState({Down:false});
     }
     if(target.keyCode===37){
-      //console.log('Left Clicked!!!');
       this.setState({Left:false});
     }
   }

@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
+// eslint-disable-next-line
 import update from 'react-addons-update';
 import Mousetrap from 'mousetrap';
 import SpaceShip_img from '../Assets/spaceship.png';
 import Laser from './Laser';
 import EvilSpaceShip from './EvilSpaceShip';
 
+
 const laserSpeed = 5;
-const EvilSpaceShipSpeed = 1;
+let EvilSpaceShipSpeed = 1;
+
+let score = 0;
+
+
+let speedup = true;
+let spawnZone = Math.floor(Math.random()*5);
 
 class SpaceShip extends Component {
 
@@ -23,15 +31,8 @@ class SpaceShip extends Component {
       lasers: [],
       EvilSpaceShips:[
         {
-          x:400,
-          y:100,
-          width:100,
-          height:70,
-          isAlive:true,
-        },
-        {
-          x:200,
-          y:100,
+          x:Math.floor(Math.random()*530),
+          y:35,
           width:100,
           height:70,
           isAlive:true,
@@ -68,7 +69,7 @@ class SpaceShip extends Component {
     let lasers = this.state.lasers;
     let id = Math.random();
     let newLaser = {
-      x:this.state.spaceShip.left,
+      x:this.state.spaceShip.left+20,
       y:this.state.spaceShip.top-60 ,
       id:id,
       height:60,
@@ -85,13 +86,17 @@ class SpaceShip extends Component {
     this.checkCollisons();
     this.updateLasers();
     this.updateEvilSpaceShips();
+    if(score%1500===0 && score !== 0 && speedup) {
+      EvilSpaceShipSpeed++;
+      speedup = false;
+    }
   }
 
   updateLasers() {
     let lasers = this.state.lasers;
     let temp = [];
     lasers.forEach((i) => {
-      if(i.y > -100 && i.isAlive){
+      if(i.y > 30 && i.isAlive){
         i.y -= laserSpeed;
         temp.push(i);
       }
@@ -104,10 +109,23 @@ class SpaceShip extends Component {
   updateEvilSpaceShips() {
     let EvilSpaceShips = this.state.EvilSpaceShips;
     let temp = [];
+    if(Math.floor(Math.random()*100)%50===0) {
+          EvilSpaceShips.push({
+            x:Math.floor(Math.random()*106)+106*(spawnZone),
+            y:35,
+            width:100,
+            height:70,
+            isAlive:true,
+          });
+        spawnZone = (spawnZone + Math.floor(Math.random()*2)+1)%5;
+      }
+        
     EvilSpaceShips.forEach((i) => {
-      if(i.y < 650 && i.isAlive){
-        i.y += 2;
+      if(i.y < 520 && i.isAlive){
+        i.y += EvilSpaceShipSpeed;
         temp.push(i);
+      } else if(i.y > 510 && score>0) {
+        score -= 100;
       }
     });
     this.setState({
@@ -118,13 +136,17 @@ class SpaceShip extends Component {
   checkCollisons() {
     let lasers = this.state.lasers;
     let EvilSpaceShips = this.state.EvilSpaceShips;
+    // eslint-disable-next-line
     let temp = [];
     EvilSpaceShips.forEach((ship) => {
       lasers.forEach((laser) => { 
         if(this.overLap(laser, ship) && ship.isAlive && laser.isAlive) {
           ship.isAlive = false;
           laser.isAlive = false;
-          console.log('hit');
+          if(!speedup){
+            speedup = true;
+          }
+          score += 100;
         }
       });
     });
@@ -146,11 +168,13 @@ class SpaceShip extends Component {
   }
 
   render() {
+    // eslint-disable-next-line
     let lasers = this.state.lasers.map((index)=>{
       if(index.isAlive) {
         return <Laser x = {index.x} y = {index.y} name = {index.id} width = {index.width} height = {index.height}/>;
       }
     });
+    // eslint-disable-next-line
     let EvilSpaceShips = this.state.EvilSpaceShips.map((index)=>{
       if(index.isAlive){
         return <EvilSpaceShip x = {index.x} y = {index.y} width = {index.width} height = {index.height}/>;
@@ -158,9 +182,13 @@ class SpaceShip extends Component {
     })
     return(
       <div>
-        <img src = {SpaceShip_img} style = {this.state.spaceShip}/>
+        <img alt = "" src = {SpaceShip_img} style = {this.state.spaceShip}/>
         {lasers}
         {EvilSpaceShips}
+        <div style={{fontSize:40,color:'white'}}>
+          <h>Score: </h>
+          {score}
+        </div>
       </div>
     );
   }
