@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 
 import Beams from '../Assets/beams.png';
 
-const laserSpeed = 3;
-
 class Laser extends Component {
 
   constructor(props) {
@@ -35,7 +33,11 @@ class Laser extends Component {
   render () {
     return(
       // eslint-disable-next-line
+<<<<<<< HEAD
       <img src = {Beams} style = {this.state.laser} onClick={this.remove } />
+=======
+      <img src = {Beams} style = {this.state.laser} />
+>>>>>>> f6bd245348817b0f549e5f8bbc7968b363cca133
     );
   }
 }
