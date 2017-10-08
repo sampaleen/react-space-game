@@ -15,11 +15,12 @@ class SpaceShip extends Component {
     super(props);
     this.state = {
       spaceShip:{
-        height:'60px',
-        width:'60px',
+        height:60,
+        width:60,
         left:props.position.x,
         top:props.position.y,
-        position:'absolute'
+        position:'absolute',
+        health: 3
       },
       lasers: [],
       evilLaser: [],
@@ -48,6 +49,7 @@ class SpaceShip extends Component {
     this.spawnEvilSpaceShip = this.spawnEvilSpaceShip.bind(this);
     this.shootEvilSpaceShip = this.shootEvilSpaceShip.bind(this);
     this.updateEvilLasers = this.updateEvilLasers.bind(this);
+    this.spaceShipCheckCollisons = this.spaceShipCheckCollisons.bind(this);
   }
 
   componentDidMount() {
@@ -58,10 +60,11 @@ class SpaceShip extends Component {
   componentWillReceiveProps(nextProps) {
     let spaceShip = {
        position:'absolute',
-      height:'60px',
-      width:'60px',
+      height:60,
+      width:60,
       left:nextProps.position.x,
-      top:nextProps.position.y
+      top:nextProps.position.y,
+      health: this.state.spaceShip.health
     }
     this.setState(() => ({
       spaceShip:spaceShip
@@ -91,6 +94,7 @@ class SpaceShip extends Component {
     this.updateEvilSpaceShips();
     this.spawnEvilSpaceShip();
     this.updateEvilLasers();
+    this.spaceShipCheckCollisons();
   }
 
   updateLasers() {
@@ -186,11 +190,57 @@ class SpaceShip extends Component {
     });
   }
 
+  spaceShipCheckCollisons() {
+    let evilLasers = this.state.evilLaser;
+    let evilSpaceShips = this.state.EvilSpaceShips;
+    let spaceShip = {x: this.state.spaceShip.left,
+                    y: this.state.spaceShip.top,
+                    width: this.state.spaceShip.width,
+                    height: this.state.spaceShip.height
+                    }
+    evilSpaceShips.forEach((eShip) => {
+      if(this.overLap(spaceShip, eShip) && eShip.isAlive){
+        eShip.isAlive = false;
+         let newSpaceShip = {
+           height:60,
+           width:60,
+           left:this.state.spaceShip.left,
+           top:this.state.spaceShip.top,
+           position:'absolute',
+           health: this.state.spaceShip.health--
+         }
+        // console.log("spaceShip hit");
+         this.setState({
+           spaceShip:newSpaceShip
+         });
+      }
+    });
+
+    evilLasers.forEach((elaser) => {
+      if(this.overLap(elaser, spaceShip) && elaser.isAlive){
+         elaser.isAlive = false;
+         let newSpaceShip = {
+           height:60,
+           width:60,
+           left:this.state.spaceShip.left,
+           top:this.state.spaceShip.top,
+           position:'absolute',
+           health: this.state.spaceShip.health--
+         }
+         this.setState({
+           spaceShip:newSpaceShip
+         });
+      }
+    });
+    console.log("Helath: " + this.state.spaceShip.health);
+  }
+
   overLap(laser, ship) {
     let l1 = {x: laser.x, y : laser.y};
     let l2 = {x: ship.x, y : ship.y};
     let r1 = {x: laser.x+laser.width, y : laser.y+laser.height};
     let r2 = {x: ship.x+ship.width, y : ship.y+ship.height};
+    //console.log(l1, l2,r1,r2);
     if (l1.x > r2.x || l2.x > r1.x){
       return false;
     }
