@@ -1,24 +1,29 @@
 import React, { Component } from 'react';
 
-import Evil_SpaceShip from '../Assets/evilSpaceShip.png';
+import Beams from '../Assets/beams.png';
 
-class EvilSpaceShip extends Component {
+const laserSpeed = 3;
+
+class EvilLasers extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
-      EvilSpace : {
-        position: 'absolute',
-        left:props.x,
-        top:props.y,
+      laser: {
+        transform: 'rotate(180deg)',
+        position:'absolute',
+        left:this.props.x,
+        top:this.props.y,
         height: props.height,
         width: props.width
-      }
+      },
     }
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      EvilSpace:{
+      laser:{
+        transform: 'rotate(180deg)',
         position:'absolute',
         left:nextProps.x,
         top:nextProps.y,
@@ -29,11 +34,11 @@ class EvilSpaceShip extends Component {
   }
 
 
-  render() {
+  render () {
     return(
-        <img src = {Evil_SpaceShip}  style = {this.state.EvilSpace} />
+      <img src = {Beams} style = {this.state.laser} />
     );
   }
 }
 
-export default EvilSpaceShip;
+export default EvilLasers;

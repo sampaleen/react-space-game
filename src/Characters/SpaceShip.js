@@ -4,6 +4,7 @@ import Mousetrap from 'mousetrap';
 import SpaceShip_img from '../Assets/spaceship.png';
 import Laser from './Laser';
 import EvilSpaceShip from './EvilSpaceShip';
+import EvilLasers from './EvilLasers';
 
 const laserSpeed = 5;
 const EvilSpaceShipSpeed = 1;
@@ -21,6 +22,7 @@ class SpaceShip extends Component {
         position:'absolute'
       },
       lasers: [],
+      evilLaser: [],
       EvilSpaceShips:[
         {
           x:400,
@@ -40,16 +42,18 @@ class SpaceShip extends Component {
     }
     this.shoot = this.shoot.bind(this);
     this.updateLasers = this.updateLasers.bind(this);
-    this.update = this.update.bind(this); 
+    this.update = this.update.bind(this);
     this.updateEvilSpaceShips = this.updateEvilSpaceShips.bind(this);
     this.checkCollisons = this.checkCollisons.bind(this);
-
+    this.spawnEvilSpaceShip = this.spawnEvilSpaceShip.bind(this);
+    this.shootEvilSpaceShip = this.shootEvilSpaceShip.bind(this);
+    this.updateEvilLasers = this.updateEvilLasers.bind(this);
   }
 
   componentDidMount() {
     Mousetrap.bind(['space'], this.shoot, 'keyup');
     this.Interval = setInterval(this.update, 10);
-  } 
+  }
 
   componentWillReceiveProps(nextProps) {
     let spaceShip = {
@@ -85,6 +89,8 @@ class SpaceShip extends Component {
     this.checkCollisons();
     this.updateLasers();
     this.updateEvilSpaceShips();
+    this.spawnEvilSpaceShip();
+    this.updateEvilLasers();
   }
 
   updateLasers() {
@@ -101,12 +107,30 @@ class SpaceShip extends Component {
     });
   }
 
+  spawnEvilSpaceShip() {
+    let EvilSpaceShips = this.state.EvilSpaceShips;
+    if(EvilSpaceShips.length < 3) {
+        EvilSpaceShips.push(
+          {
+            x:Math.floor((Math.random() * 500) + 50),
+            y:Math.floor((Math.random() * 300) + 100) *-1,
+            width:100,
+            height:70,
+            isAlive:true,
+          }
+        );
+    }
+  }
+
   updateEvilSpaceShips() {
     let EvilSpaceShips = this.state.EvilSpaceShips;
     let temp = [];
     EvilSpaceShips.forEach((i) => {
       if(i.y < 650 && i.isAlive){
         i.y += 2;
+        if(Math.random() > .99 && Math.random() > .6) {
+          this.shootEvilSpaceShip(i);
+        }
         temp.push(i);
       }
     });
@@ -115,12 +139,44 @@ class SpaceShip extends Component {
     });
   }
 
+  shootEvilSpaceShip(spaceShip) {
+    let lasers = this.state.evilLaser;
+    console.log(lasers);
+    let newLaser = {
+      transform: 'rotate(180deg)',
+      position:'absolute',
+      x:spaceShip.x,
+      y:spaceShip.y+60 ,
+      height:60,
+      width:20,
+      isAlive:true
+    }
+    lasers.push(newLaser);
+    this.setState({
+      evilLaser:lasers
+    });
+  }
+
+  updateEvilLasers() {
+    let lasers = this.state.evilLaser;
+    let temp = [];
+    lasers.forEach((i) => {
+      if(i.y < 600 && i.isAlive){
+        i.y += laserSpeed;
+        temp.push(i);
+      }
+    });
+    this.setState({
+      evilLaser:temp
+    });
+  }
+
   checkCollisons() {
     let lasers = this.state.lasers;
     let EvilSpaceShips = this.state.EvilSpaceShips;
     let temp = [];
     EvilSpaceShips.forEach((ship) => {
-      lasers.forEach((laser) => { 
+      lasers.forEach((laser) => {
         if(this.overLap(laser, ship) && ship.isAlive && laser.isAlive) {
           ship.isAlive = false;
           laser.isAlive = false;
@@ -151,6 +207,11 @@ class SpaceShip extends Component {
         return <Laser x = {index.x} y = {index.y} name = {index.id} width = {index.width} height = {index.height}/>;
       }
     });
+    let evilLasers = this.state.evilLaser.map((index)=>{
+      if(index.isAlive) {
+        return <EvilLasers x = {index.x} y = {index.y} name = {index.id} width = {index.width} height = {index.height}/>;
+      }
+    });
     let EvilSpaceShips = this.state.EvilSpaceShips.map((index)=>{
       if(index.isAlive){
         return <EvilSpaceShip x = {index.x} y = {index.y} width = {index.width} height = {index.height}/>;
@@ -161,6 +222,7 @@ class SpaceShip extends Component {
         <img src = {SpaceShip_img} style = {this.state.spaceShip}/>
         {lasers}
         {EvilSpaceShips}
+        {evilLasers}
       </div>
     );
   }
