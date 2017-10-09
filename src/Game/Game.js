@@ -127,7 +127,7 @@ class Game extends Component {
       this.setState({Left:false});
     }
   }
- 
+
   updateGame() {
     this.setState({
       Game:false
