@@ -95,7 +95,7 @@ class SpaceShip extends Component {
       this.spaceShipCheckCollisons();
       this.updateHearts();
       this.updateIntensity();
-      if(this.state.score%15 && this.state.score != 0 && speedUp){
+      if(this.state.score%15 ===0 && this.state.score != 0 && speedUp){
         EvilSpaceShipSpeed++;
         speedUp = false;
       }
