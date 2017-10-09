@@ -11,7 +11,7 @@ import Score from '../Game/Score';
 const laserSpeed = 5;
 let EvilSpaceShipSpeed = 1;
 
-let speedUp = true; 
+let speedUp = false; 
 
 class SpaceShip extends Component {
 
@@ -95,9 +95,10 @@ class SpaceShip extends Component {
       this.spaceShipCheckCollisons();
       this.updateHearts();
       this.updateIntensity();
-      if(this.state.score%15 && this.state.score != 0 && speedUp){
+      if(this.state.score%15 && this.state.score !==0 && speedUp){
         EvilSpaceShipSpeed++;
         speedUp = false;
+        console.log("speeding up");
       }
     }else{
       this.props.endGame();
@@ -223,10 +224,13 @@ class SpaceShip extends Component {
           ship.isAlive = false;
           laser.isAlive = false;
           this.state.score = this.state.score + 1;
+          if(this.state.score%15===0) {
+            speedUp = true;
+          }
         }
       });
     });
-    console.log(this.state.score);
+    //console.log(this.state.score);
   }
 
   spaceShipCheckCollisons() {
@@ -271,7 +275,7 @@ class SpaceShip extends Component {
          });
       }
     });
-    console.log("Helath: " + this.state.spaceShip.health);
+    //console.log("Helath: " + this.state.spaceShip.health);
   }
 
   overLap(laser, ship) {
