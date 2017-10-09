@@ -9,7 +9,9 @@ import Hearts from './heart.js';
 import Score from '../Game/Score';
 
 const laserSpeed = 5;
-const EvilSpaceShipSpeed = 1;
+let EvilSpaceShipSpeed = 1;
+
+let speedUp = true; 
 
 class SpaceShip extends Component {
 
@@ -89,12 +91,14 @@ class SpaceShip extends Component {
       this.updateEvilLasers();
       this.spaceShipCheckCollisons();
       this.updateHearts();
+      if(this.state.score%15 && this.state.score != 0 && speedUp){
+        EvilSpaceShipSpeed++;
+        speedUp = false;
+      }
     }else{
       this.props.endGame();
     }
-   
-    
-      }
+   }
 
   updateHearts() {
     let hearts = this.state.hearts;
@@ -110,7 +114,6 @@ class SpaceShip extends Component {
         height:50,
         width:50,
       }
-      //console.log(temp);
      temp.push(newHeart);
     }
     this.setState({
@@ -137,7 +140,7 @@ class SpaceShip extends Component {
     if(EvilSpaceShips.length < 3) {
         EvilSpaceShips.push(
           {
-            x:Math.floor((Math.random() * 500) + 50),
+            x:Math.floor((Math.random() * 500) + 50) -40,
             y:Math.floor((Math.random() * 300) + 100) *-1,
             width:100,
             height:70,
@@ -151,8 +154,8 @@ class SpaceShip extends Component {
     let EvilSpaceShips = this.state.EvilSpaceShips;
     let temp = [];
     EvilSpaceShips.forEach((i) => {
-      if(i.y < 650 && i.isAlive){
-        i.y += 2;
+      if(i.y < 530 && i.isAlive){
+        i.y += EvilSpaceShipSpeed;
         if(Math.random() > .99 && Math.random() > .6) {
           this.shootEvilSpaceShip(i);
         }
@@ -186,7 +189,7 @@ class SpaceShip extends Component {
     let lasers = this.state.evilLaser;
     let temp = [];
     lasers.forEach((i) => {
-      if(i.y < 600 && i.isAlive){
+      if(i.y < 540 && i.isAlive){
         i.y += laserSpeed;
         temp.push(i);
       }
