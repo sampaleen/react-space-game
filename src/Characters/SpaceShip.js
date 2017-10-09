@@ -26,22 +26,7 @@ class SpaceShip extends Component {
       lasers: [],
       evilLaser: [],
       hearts: [],
-      EvilSpaceShips:[
-        {
-          x:400,
-          y:100,
-          width:100,
-          height:70,
-          isAlive:true,
-        },
-        {
-          x:200,
-          y:100,
-          width:100,
-          height:70,
-          isAlive:true,
-        }
-      ]
+      EvilSpaceShips:[],
     }
     this.shoot = this.shoot.bind(this);
     this.updateLasers = this.updateLasers.bind(this);
@@ -75,6 +60,7 @@ class SpaceShip extends Component {
   }
 
   shoot() {
+    if(this.state.spaceShip.health>0){
     let lasers = this.state.lasers;
     let id = Math.random();
     let newLaser = {
@@ -90,17 +76,23 @@ class SpaceShip extends Component {
       lasers:lasers
     });
   }
+  }
 
   update() {
-    this.checkCollisons();
-    this.updateLasers();
-    this.updateEvilSpaceShips();
-    this.spawnEvilSpaceShip();
-    this.updateEvilLasers();
-    this.spaceShipCheckCollisons();
-    this.updateHearts();
-    //console.log(this.state.hearts);
-  }
+    if(this.state.spaceShip.health>0){
+      this.checkCollisons();
+      this.updateLasers();
+      this.updateEvilSpaceShips();
+      this.spawnEvilSpaceShip();
+      this.updateEvilLasers();
+      this.spaceShipCheckCollisons();
+      this.updateHearts();
+    }else{
+      this.props.endGame();
+    }
+   
+    
+      }
 
   updateHearts() {
     let hearts = this.state.hearts;

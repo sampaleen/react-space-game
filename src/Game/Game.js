@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Mousetrap from 'mousetrap';
 import SpaceShip from '../Characters/SpaceShip';
 // eslint-disable-next-line
-import Galaxy from '../Assets/galaxy.png';
+import GameOver from '../Assets/GameOver.png';
 
 
 
@@ -28,11 +28,13 @@ class Game extends Component {
       Up: false,
       Down: false,
       Left: false,
-      Right: false
+      Right: false,
+      Game:true,
     }
     this.onKeyPress = this.onKeyPress.bind(this);
     this.onKeyUp = this.onKeyUp.bind(this);
     this.update = this.update.bind(this);
+    this.updateGame = this.updateGame.bind(this);
   }
 
   componentDidMount() {
@@ -43,7 +45,7 @@ class Game extends Component {
 
   update() {
 
-    if(this.state.Up){
+    if(this.state.Up && this.state.Game){
       let position = {
         x:this.state.position.x,
         y:this.state.position.y
@@ -53,7 +55,7 @@ class Game extends Component {
       }
       this.setState({position:position});
     }
-    if(this.state.Right){
+    if(this.state.Right && this.state.Game){
       let position = {
         x:this.state.position.x,
         y:this.state.position.y
@@ -63,7 +65,7 @@ class Game extends Component {
       }
       this.setState({position:position});
     }
-    if(this.state.Down){
+    if(this.state.Down && this.state.Game){
       let position = {
         x:this.state.position.x,
         y:this.state.position.y
@@ -73,7 +75,7 @@ class Game extends Component {
       }
       this.setState({position:position});
     }
-    if(this.state.Left){
+    if(this.state.Left && this.state.Game){
       let position = {
         x:this.state.position.x,
         y:this.state.position.y
@@ -123,11 +125,20 @@ class Game extends Component {
       this.setState({Left:false});
     }
   }
+ 
+  updateGame() {
+    this.setState({
+      Game:false
+    });
+  }
 
   render() {
     return(
       <div id = "Canvas" style = {style.Canvas}>
-        <SpaceShip position = {this.state.position} />
+        <SpaceShip position = {this.state.position} endGame = {()=>this.updateGame()} />
+        {!this.state.Game &&
+          <img src = {GameOver} />
+        }
       </div>
     );
   }

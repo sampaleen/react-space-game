@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Beams from '../Assets/beams.png';
+import EvilLaser from '../Assets/EvilLaser.png';
 
 const laserSpeed = 3;
 
@@ -36,7 +36,7 @@ class EvilLasers extends Component {
 
   render () {
     return(
-      <img src = {Beams} style = {this.state.laser} />
+      <img src = {EvilLaser} style = {this.state.laser} />
     );
   }
 }
