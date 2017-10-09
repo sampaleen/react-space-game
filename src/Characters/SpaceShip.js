@@ -29,6 +29,9 @@ class SpaceShip extends Component {
       hearts: [],
       EvilSpaceShips:[],
       score:0,
+      numOfEnemies: 2,
+      rateOfFire: 0.5,
+      increaseInt: false
     }
     this.shoot = this.shoot.bind(this);
     this.updateLasers = this.updateLasers.bind(this);
@@ -89,12 +92,23 @@ class SpaceShip extends Component {
       this.updateEvilLasers();
       this.spaceShipCheckCollisons();
       this.updateHearts();
+      this.updateIntensity();
     }else{
       this.props.endGame();
     }
-   
-    
+
+
       }
+
+  updateIntensity() {
+    if(this.state.score % 5 === 0 && !this.state.increaseInt) {
+      this.state.rateOfFire += 0.1;
+      this.state.numOfEnemies+=1;
+      this.state.increaseInt = true;
+    } else if(this.state.score % 5 !== 0) {
+      this.state.increaseInt = false;
+    }
+  }
 
   updateHearts() {
     let hearts = this.state.hearts;
@@ -134,7 +148,7 @@ class SpaceShip extends Component {
 
   spawnEvilSpaceShip() {
     let EvilSpaceShips = this.state.EvilSpaceShips;
-    if(EvilSpaceShips.length < 3) {
+    if(EvilSpaceShips.length < this.state.numOfEnemies) {
         EvilSpaceShips.push(
           {
             x:Math.floor((Math.random() * 500) + 50),
@@ -153,7 +167,7 @@ class SpaceShip extends Component {
     EvilSpaceShips.forEach((i) => {
       if(i.y < 650 && i.isAlive){
         i.y += 2;
-        if(Math.random() > .99 && Math.random() > .6) {
+        if(Math.random() > .99 && Math.random() > this.state.rateOfFire) {
           this.shootEvilSpaceShip(i);
         }
         temp.push(i);
