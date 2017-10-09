@@ -5,6 +5,7 @@ import SpaceShip_img from '../Assets/spaceship.png';
 import Laser from './Laser';
 import EvilSpaceShip from './EvilSpaceShip';
 import EvilLasers from './EvilLasers';
+import Hearts from './heart.js';
 
 const laserSpeed = 5;
 const EvilSpaceShipSpeed = 1;
@@ -24,6 +25,7 @@ class SpaceShip extends Component {
       },
       lasers: [],
       evilLaser: [],
+      hearts: [],
       EvilSpaceShips:[
         {
           x:400,
@@ -50,6 +52,7 @@ class SpaceShip extends Component {
     this.shootEvilSpaceShip = this.shootEvilSpaceShip.bind(this);
     this.updateEvilLasers = this.updateEvilLasers.bind(this);
     this.spaceShipCheckCollisons = this.spaceShipCheckCollisons.bind(this);
+    this.updateHearts = this.updateHearts.bind(this);
   }
 
   componentDidMount() {
@@ -95,6 +98,30 @@ class SpaceShip extends Component {
     this.spawnEvilSpaceShip();
     this.updateEvilLasers();
     this.spaceShipCheckCollisons();
+    this.updateHearts();
+    //console.log(this.state.hearts);
+  }
+
+  updateHearts() {
+    let hearts = this.state.hearts;
+    let health = this.state.spaceShip.health;
+    let temp = [];
+    let x = 0;
+    while (temp.length < health) {
+      //console.log(hearts.length);
+      let newHeart = {
+        postion: 'absolute',
+        x: 50*temp.length,
+        y:550,
+        height:50,
+        width:50,
+      }
+      //console.log(temp);
+     temp.push(newHeart);
+    }
+    this.setState({
+      hearts:temp
+    });
   }
 
   updateLasers() {
@@ -145,7 +172,7 @@ class SpaceShip extends Component {
 
   shootEvilSpaceShip(spaceShip) {
     let lasers = this.state.evilLaser;
-    console.log(lasers);
+    //console.log(lasers);
     let newLaser = {
       transform: 'rotate(180deg)',
       position:'absolute',
@@ -207,7 +234,7 @@ class SpaceShip extends Component {
            left:this.state.spaceShip.left,
            top:this.state.spaceShip.top,
            position:'absolute',
-           health: this.state.spaceShip.health--
+           health: this.state.spaceShip.health- 1
          }
         // console.log("spaceShip hit");
          this.setState({
@@ -225,7 +252,7 @@ class SpaceShip extends Component {
            left:this.state.spaceShip.left,
            top:this.state.spaceShip.top,
            position:'absolute',
-           health: this.state.spaceShip.health--
+           health: this.state.spaceShip.health- 1
          }
          this.setState({
            spaceShip:newSpaceShip
@@ -266,10 +293,14 @@ class SpaceShip extends Component {
       if(index.isAlive){
         return <EvilSpaceShip x = {index.x} y = {index.y} width = {index.width} height = {index.height}/>;
       }
-    })
+    });
+    let hearts = this.state.hearts.map((index)=>{
+      return <Hearts x = {index.x} y = {index.y} width = {index.width} height = {index.height}/>;
+    });
     return(
       <div>
         <img src = {SpaceShip_img} style = {this.state.spaceShip}/>
+        {hearts}
         {lasers}
         {EvilSpaceShips}
         {evilLasers}
