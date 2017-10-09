@@ -299,6 +299,10 @@ class SpaceShip extends Component {
     });
     return(
       <div>
+        <div style={{fontSize:40,color:'white'}}>
+          <h>Score: </h>
+          {score}
+        </div>
         <img alt = "" src = {SpaceShip_img} style = {this.state.spaceShip}/>
         {hearts}
         {lasers}
