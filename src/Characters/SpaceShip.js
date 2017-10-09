@@ -6,6 +6,7 @@ import Laser from './Laser';
 import EvilSpaceShip from './EvilSpaceShip';
 import EvilLasers from './EvilLasers';
 import Hearts from './heart.js';
+import Score from '../Game/Score';
 
 const laserSpeed = 5;
 const EvilSpaceShipSpeed = 1;
@@ -27,6 +28,7 @@ class SpaceShip extends Component {
       evilLaser: [],
       hearts: [],
       EvilSpaceShips:[],
+      score:0,
     }
     this.shoot = this.shoot.bind(this);
     this.updateLasers = this.updateLasers.bind(this);
@@ -203,10 +205,11 @@ class SpaceShip extends Component {
         if(this.overLap(laser, ship) && ship.isAlive && laser.isAlive) {
           ship.isAlive = false;
           laser.isAlive = false;
-          console.log('hit');
+          this.state.score = this.state.score + 1;
         }
       });
     });
+    console.log(this.state.score);
   }
 
   spaceShipCheckCollisons() {
@@ -296,6 +299,7 @@ class SpaceShip extends Component {
         {lasers}
         {EvilSpaceShips}
         {evilLasers}
+        <Score score = {this.state.score}/>
       </div>
     );
   }

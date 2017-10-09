@@ -3,6 +3,8 @@ import Mousetrap from 'mousetrap';
 import SpaceShip from '../Characters/SpaceShip';
 // eslint-disable-next-line
 import GameOver from '../Assets/GameOver.png';
+import GameMusic from '../Assets/GameMusic.mp3';
+import ReactAudioPlayer from 'react-audio-player';
 
 
 
@@ -139,6 +141,7 @@ class Game extends Component {
         {!this.state.Game &&
           <img src = {GameOver} />
         }
+        <ReactAudioPlayer src = {GameMusic}  autoPlay />
       </div>
     );
   }
