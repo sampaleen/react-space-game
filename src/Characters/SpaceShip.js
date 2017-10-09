@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
+// eslint-disable-next-line
 import update from 'react-addons-update';
 import Mousetrap from 'mousetrap';
 import SpaceShip_img from '../Assets/spaceship.png';
 import Laser from './Laser';
+// eslint-disable-next-line
 import EvilSpaceShip from './EvilSpaceShip';
 import EvilLasers from './EvilLasers';
 import Hearts from './heart.js';
 
 const laserSpeed = 5;
-const EvilSpaceShipSpeed = 1;
+const EvilSpaceShipSpeed = 2;
+
+let score = 0;
+//let speedup = false;
 
 class SpaceShip extends Component {
 
@@ -95,12 +100,13 @@ class SpaceShip extends Component {
       }
 
   updateHearts() {
+    // eslint-disable-next-line
     let hearts = this.state.hearts;
     let health = this.state.spaceShip.health;
     let temp = [];
+    // eslint-disable-next-line
     let x = 0;
     while (temp.length < health) {
-      //console.log(hearts.length);
       let newHeart = {
         postion: 'absolute',
         x: 50*temp.length,
@@ -108,7 +114,6 @@ class SpaceShip extends Component {
         height:50,
         width:50,
       }
-      //console.log(temp);
      temp.push(newHeart);
     }
     this.setState({
@@ -150,11 +155,13 @@ class SpaceShip extends Component {
     let temp = [];
     EvilSpaceShips.forEach((i) => {
       if(i.y < 650 && i.isAlive){
-        i.y += 2;
+        i.y += EvilSpaceShipSpeed;
         if(Math.random() > .99 && Math.random() > .6) {
           this.shootEvilSpaceShip(i);
         }
         temp.push(i);
+      } else if(i.y >= 650 && score>0) {
+        score-=100;
       }
     });
     this.setState({
@@ -164,7 +171,6 @@ class SpaceShip extends Component {
 
   shootEvilSpaceShip(spaceShip) {
     let lasers = this.state.evilLaser;
-    //console.log(lasers);
     let newLaser = {
       transform: 'rotate(180deg)',
       position:'absolute',
@@ -197,13 +203,15 @@ class SpaceShip extends Component {
   checkCollisons() {
     let lasers = this.state.lasers;
     let EvilSpaceShips = this.state.EvilSpaceShips;
+    // eslint-disable-next-line
     let temp = [];
     EvilSpaceShips.forEach((ship) => {
       lasers.forEach((laser) => {
         if(this.overLap(laser, ship) && ship.isAlive && laser.isAlive) {
           ship.isAlive = false;
           laser.isAlive = false;
-          console.log('hit');
+          score+=100;
+          console.log(score);
         }
       });
     });
@@ -228,7 +236,6 @@ class SpaceShip extends Component {
            position:'absolute',
            health: this.state.spaceShip.health- 1
          }
-        // console.log("spaceShip hit");
          this.setState({
            spaceShip:newSpaceShip
          });
@@ -251,7 +258,6 @@ class SpaceShip extends Component {
          });
       }
     });
-    console.log("Helath: " + this.state.spaceShip.health);
   }
 
   overLap(laser, ship) {
@@ -259,7 +265,6 @@ class SpaceShip extends Component {
     let l2 = {x: ship.x, y : ship.y};
     let r1 = {x: laser.x+laser.width, y : laser.y+laser.height};
     let r2 = {x: ship.x+ship.width, y : ship.y+ship.height};
-    //console.log(l1, l2,r1,r2);
     if (l1.x > r2.x || l2.x > r1.x){
       return false;
     }
@@ -271,16 +276,19 @@ class SpaceShip extends Component {
   }
 
   render() {
+    // eslint-disable-next-line
     let lasers = this.state.lasers.map((index)=>{
       if(index.isAlive) {
         return <Laser x = {index.x} y = {index.y} name = {index.id} width = {index.width} height = {index.height}/>;
       }
     });
+    // eslint-disable-next-line
     let evilLasers = this.state.evilLaser.map((index)=>{
       if(index.isAlive) {
         return <EvilLasers x = {index.x} y = {index.y} name = {index.id} width = {index.width} height = {index.height}/>;
       }
     });
+    // eslint-disable-next-line
     let EvilSpaceShips = this.state.EvilSpaceShips.map((index)=>{
       if(index.isAlive){
         return <EvilSpaceShip x = {index.x} y = {index.y} width = {index.width} height = {index.height}/>;
@@ -291,7 +299,7 @@ class SpaceShip extends Component {
     });
     return(
       <div>
-        <img src = {SpaceShip_img} style = {this.state.spaceShip}/>
+        <img alt = "" src = {SpaceShip_img} style = {this.state.spaceShip}/>
         {hearts}
         {lasers}
         {EvilSpaceShips}

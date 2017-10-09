@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 
 import EvilLaser from '../Assets/EvilLaser.png';
 
-const laserSpeed = 3;
-
 class EvilLasers extends Component {
 
   constructor(props) {
@@ -36,6 +34,7 @@ class EvilLasers extends Component {
 
   render () {
     return(
+      // eslint-disable-next-line
       <img src = {EvilLaser} style = {this.state.laser} />
     );
   }

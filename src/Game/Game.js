@@ -137,7 +137,7 @@ class Game extends Component {
       <div id = "Canvas" style = {style.Canvas}>
         <SpaceShip position = {this.state.position} endGame = {()=>this.updateGame()} />
         {!this.state.Game &&
-          <img src = {GameOver} />
+          <img alt = "" src = {GameOver} />
         }
       </div>
     );

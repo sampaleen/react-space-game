@@ -19,6 +19,7 @@ class heart extends Component {
 
   render () {
     return(
+      // eslint-disable-next-line
       <img src = {hearts} style = {this.state.heart} />
     );
   }
